@@ -1,0 +1,6 @@
+@Commerce.API_HostAddress = http://localhost:5168
+
+GET {{Commerce.API_HostAddress}}/Produto/
+Accept: application/json
+
+###
