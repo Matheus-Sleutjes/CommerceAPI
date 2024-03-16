@@ -2,13 +2,30 @@
 {
     public class Produto : Entity
     {
-        public string Nome { get; set; }
-        public double Valor { get; set; }
-        public int Estoque { get; set; }
-
-        public void Validation()
+        public Produto(string nome, double valor, int estoque)
         {
-            if (Valor < 0) throw new Exception("O valor não pode ser negativo");
+            Nome = nome;
+            Valor = valor;
+            Estoque = estoque;
+        }
+
+        public string Nome { get; private set; }
+        public double Valor { get; private set; }
+        public int Estoque { get; private set; }
+
+        public void SetNome(string nome)
+        {
+            Nome = nome;
+        }
+
+        public void SetValor(double valor)
+        {
+            Valor = valor;
+        }
+
+        public void SetEstoque(int estoque)
+        {
+            Estoque = estoque;
         }
     }
 }

@@ -1,4 +1,8 @@
+using Commerce.Application.Contract;
+using Commerce.Application.Service;
 using Commerce.Infrastructure.Context;
+using Commerce.Infrastructure.Contract;
+using Commerce.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddTransient<IProdutoService, ProdutoService>();
+builder.Services.AddTransient<IProdutoRepository, ProdutoRepository>();
 
 //Context 
 builder.Services.AddDbContext<CommerceContext>(options =>
