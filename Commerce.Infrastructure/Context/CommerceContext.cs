@@ -6,5 +6,6 @@ namespace Commerce.Infrastructure.Context
     public class CommerceContext(DbContextOptions<CommerceContext> options) : DbContext(options)
     {
         public DbSet<Produto> Produtos { get; set; }
+        public DbSet<__ScriptMigrationHistory> __ScriptMigrationHistory { get; set; }
     }
 }

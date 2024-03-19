@@ -1,3 +1,4 @@
+using Commerce.API.Configuration;
 using Commerce.Application.Contract;
 using Commerce.Application.Service;
 using Commerce.Infrastructure.Context;
@@ -25,6 +26,7 @@ var app = builder.Build();
 var serviceScope = app.Services.GetService<IServiceScopeFactory>().CreateScope();
 var context = serviceScope.ServiceProvider.GetRequiredService<CommerceContext>();
 context.Database.Migrate();
+context.MigrateScripts("Script");
 
 
 // Configure the HTTP request pipeline.
