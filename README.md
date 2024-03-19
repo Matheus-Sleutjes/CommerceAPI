@@ -40,3 +40,6 @@ Navegue até o diretório do projeto e execute o seguinte comando: `docker compo
 ### Passo 3
 
 Acesse a documentação da API através da URL: `http://localhost:8080/swagger/index.html`
+
+## Swagger
+<img src="img-swagger.png" alt="swagger">
