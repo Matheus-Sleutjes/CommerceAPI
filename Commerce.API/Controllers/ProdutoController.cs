@@ -15,7 +15,7 @@ namespace Commerce.API.Controllers
         }
 
         [HttpPost("GetBySort")]
-        public async Task<IActionResult> GetBySort([FromBody]IEnumerable<Sort> sorts )
+        public async Task<IActionResult> GetBySort([FromBody]List<Sort> sorts )
         {
             return await _produtoService.GetBySort(sorts);
         }

@@ -6,8 +6,8 @@ namespace Commerce.Infrastructure.Contract
     public interface IProdutoRepository
     {
         Produto Get(int id);
-        IEnumerable<Produto> GetByName(string name);
-        IEnumerable<Produto> GetBySort(IEnumerable<Sort> sorts);
+        List<Produto> GetByName(string name);
+        List<Produto> GetBySort(List<Sort> sorts);
         void Add(Produto entity);
         void Update(Produto entity);
         void Delete(Produto entity);

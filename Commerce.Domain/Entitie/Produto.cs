@@ -2,6 +2,14 @@
 {
     public class Produto : Entity
     {
+        public Produto(string nome, double valor, int estoque, int id)
+        {
+            Nome = nome;
+            Valor = valor;
+            Estoque = estoque;
+            Id = id;
+        }
+
         public Produto(string nome, double valor, int estoque)
         {
             Nome = nome;

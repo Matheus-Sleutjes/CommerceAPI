@@ -11,7 +11,7 @@ namespace Commerce.Infrastructure.Utils
             return source.Where(predicate).OrderBy(orderKeySelector).Take(take);
         }
 
-        public static List<TSource> ToSort<TSource>(this IQueryable<TSource> source, IEnumerable<Sort> sorts)
+        public static List<TSource> ToSort<TSource>(this IQueryable<TSource> source, List<Sort> sorts)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
@@ -23,7 +23,7 @@ namespace Commerce.Infrastructure.Utils
             return orderedQuery.ToList();
         }
 
-        private static IQueryable<TSource> ApplySorts<TSource>(IQueryable<TSource> source, IEnumerable<Sort> sorts)
+        private static IQueryable<TSource> ApplySorts<TSource>(IQueryable<TSource> source, List<Sort> sorts)
         {
             bool first = true;
             IOrderedQueryable<TSource> orderedQuery = null;

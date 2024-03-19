@@ -24,7 +24,7 @@ namespace Commerce.Application.Service
             return new OkObjectResult(entity);
         }
 
-        public async Task<ActionResult> GetBySort(IEnumerable<Sort> sorts)
+        public async Task<ActionResult> GetBySort(List<Sort> sorts)
         {
             var entity = _produtoRepository.GetBySort(sorts);
             if (entity == null) return new NotFoundResult();

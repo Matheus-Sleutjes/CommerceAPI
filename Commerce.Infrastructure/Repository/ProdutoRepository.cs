@@ -14,12 +14,12 @@ namespace Commerce.Infrastructure.Repository
             return _context.Produtos.AsNoTracking().Where(t => t.Id == id).FirstOrDefault();
         }
 
-        public IEnumerable<Produto> GetByName(string name)
+        public List<Produto> GetByName(string name)
         {
-            return _context.Produtos.AsNoTracking().Autocomplete(t => t.Nome.Contains(name), o => o.Nome).Take(100);
+            return _context.Produtos.AsNoTracking().Autocomplete(t => t.Nome.Contains(name), o => o.Nome).Take(100).ToList();
         }
 
-        public IEnumerable<Produto> GetBySort(IEnumerable<Sort> sorts)
+        public List<Produto> GetBySort(List<Sort> sorts)
         {
             return _context.Produtos.AsNoTracking().ToSort(sorts);
         }
