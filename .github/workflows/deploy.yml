@@ -24,8 +24,9 @@ jobs:
 
     - name: Build 
       uses: actions/checkout@v4
-        - name: teste 
-          run: echo teste hello world  
+        
+    - name: teste 
+      run: echo teste hello world      
       
   # build:
   #   runs-on: ubuntu-latest
