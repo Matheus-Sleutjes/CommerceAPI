@@ -23,8 +23,7 @@ jobs:
         TARGET: "/repos/commerce"
 
     - name: Build 
-        - uses: actions/checkout@v4
-
+      uses: actions/checkout@v4
         - name: teste 
           run: echo teste hello world  
       
