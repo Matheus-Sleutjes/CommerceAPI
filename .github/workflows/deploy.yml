@@ -21,3 +21,18 @@ jobs:
         REMOTE_HOST: "ec2-54-233-214-134.sa-east-1.compute.amazonaws.com"
         REMOTE_USER: "ubunto"
         TARGET: "/repos/commerce"
+
+    - name: Build 
+        - uses: actions/checkout@v4
+
+        - name: teste 
+          run: echo teste hello world  
+      
+  # build:
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - uses: actions/checkout@v4
+
+  #     - name: Build and Run
+  #       run: docker compose up -d
