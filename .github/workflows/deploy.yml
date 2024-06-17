@@ -1,39 +1,44 @@
 name: Push-to-EC2
-on: [pull_request]
-  branches:
-    - main
+
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   deploy:
-    name: Deploy to EC2
-    runs-on: ubunto-latest
+    name: Deploy to EC2 (with Security Enhancements)
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout the files
-      uses: actions/checkout@v3
+      - name: Checkout the repository
+        uses: actions/checkout@v3
 
-    - name: Copy files with SSH
-      uses: easingthemes/ssh-deploy@main
-      env:
-        SSH_PRIVATE_KEY: ${{secrets.EC2_SSH_KEY}}
-        SOURCE: "./"
-        REMOTE_HOST: "ec2-54-233-214-134.sa-east-1.compute.amazonaws.com"
-        REMOTE_USER: "ubunto"
-        TARGET: "/repos/commerce"
-  
-  # build:
-  #   name: Build 
-  #   # - name: Build 
-  #   #   uses: actions/checkout@v4
-        
-  #   - name: Console teste
-  #     run: echo teste hello world      
-      
-  # build:
-  #   runs-on: ubuntu-latest
+      - name: Install SSH dependencies (if needed)
+        run: |
+          sudo apt-get update
+          sudo apt-get install openssh-client -y  # Install openssh-client if not present
 
-  #   steps:
-  #     - uses: actions/checkout@v4
+      - name: Grant temporary SSH permissions (recommended)
+        run: |
+          umask 077  # Set stricter permissions for the temporary key file
+          echo ${{ secrets.EC2_SSH_KEY }} | tr -d '\r' > id_rsa  # Decrypt and write key securely
+          chmod 600 id_rsa  # Set stricter permissions for the key file
+          eval "$(ssh-agent -s)"  # Start the SSH agent
+          ssh-add id_rsa  # Add the temporary key to the agent
+          ssh-keyscan ${{ secrets.REMOTE_HOST }} >> known_hosts  # Add host to known_hosts (optional)
 
-  #     - name: Build and Run
-  #       run: docker compose up -d
+      - name: Deploy files securely using SFTP (recommended)
+        uses: sftp-deploy/sftp-deploy@v1.4.0
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          local_dir: ./
+          remote_dir: /repos/commerce
+          privateKey: ${{ secrets.EC2_SSH_KEY }}  # Pass key securely without exposing in workflow logs
+
+      - name: Remove temporary SSH resources (recommended)
+        run: |
+          ssh-agent -k  # Kill the SSH agent
+          rm -f id_rsa known_hosts  # Remove temporary files
+
