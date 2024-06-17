@@ -22,13 +22,13 @@ jobs:
         REMOTE_USER: "ubunto"
         TARGET: "/repos/commerce"
   
-  build:
-    name: Build 
-    # - name: Build 
-    #   uses: actions/checkout@v4
+  # build:
+  #   name: Build 
+  #   # - name: Build 
+  #   #   uses: actions/checkout@v4
         
-    - name: Console teste
-      run: echo teste hello world      
+  #   - name: Console teste
+  #     run: echo teste hello world      
       
   # build:
   #   runs-on: ubuntu-latest
