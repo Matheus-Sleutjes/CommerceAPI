@@ -22,22 +22,18 @@ jobs:
       - name: Grant temporary SSH permissions (recommended)
         run: |
           umask 077  # Set stricter permissions for the temporary key file
-          echo ${{ secrets.EC2_SSH_KEY }} | tr -d '\r' > id_rsa  # Decrypt and write key securely
+          echo "${{ secrets.EC2_SSH_KEY }}" | tr -d '\r' > id_rsa  # Decrypt and write key securely
           chmod 600 id_rsa  # Set stricter permissions for the key file
           eval "$(ssh-agent -s)"  # Start the SSH agent
           ssh-add id_rsa  # Add the temporary key to the agent
-          ssh-keyscan ${{ secrets.REMOTE_HOST }} >> known_hosts  # Add host to known_hosts (optional)
+          mkdir -p ~/.ssh
+          ssh-keyscan "${{ secrets.REMOTE_HOST }}" >> ~/.ssh/known_hosts  # Add host to known_hosts (optional)
 
-      - name: Copy files with SSH
-        uses: actions/checkout@v3
-        with:
-          ssh_key: ${{ secrets.EC2_SSH_KEY }}
-          ssh_host: ${{ secrets.REMOTE_HOST }}
-          ssh_user: ${{ secrets.REMOTE_USER }}
-          source: ./
-          target: /repos/commerce
+      - name: Copy files with SCP
+        run: |
+          scp -r -i id_rsa ./ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/repos/commerce
 
       - name: Remove temporary SSH resources (recommended)
         run: |
           ssh-agent -k  # Kill the SSH agent
-          rm -f id_rsa known_hosts  # Remove temporary files
+          rm -f id_rsa ~/.ssh/known_hosts  # Remove temporary files
