@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    name: Deploy to EC2 (with Security Enhancements)
+    name: Deploy to EC2 via SSH
     runs-on: ubuntu-latest
 
     steps:
@@ -28,17 +28,16 @@ jobs:
           ssh-add id_rsa  # Add the temporary key to the agent
           ssh-keyscan ${{ secrets.REMOTE_HOST }} >> known_hosts  # Add host to known_hosts (optional)
 
-      - name: Deploy files securely using SFTP (recommended)
-        uses: sftp-deploy/sftp-deploy@v1.4.0
+      - name: Copy files with SSH
+        uses: actions/checkout@v3
         with:
-          host: ${{ secrets.REMOTE_HOST }}
-          username: ${{ secrets.REMOTE_USER }}
-          local_dir: ./
-          remote_dir: /repos/commerce
-          privateKey: ${{ secrets.EC2_SSH_KEY }}  # Pass key securely without exposing in workflow logs
+          ssh_key: ${{ secrets.EC2_SSH_KEY }}
+          ssh_host: ${{ secrets.REMOTE_HOST }}
+          ssh_user: ${{ secrets.REMOTE_USER }}
+          source: ./
+          target: /repos/commerce
 
       - name: Remove temporary SSH resources (recommended)
         run: |
           ssh-agent -k  # Kill the SSH agent
           rm -f id_rsa known_hosts  # Remove temporary files
-
