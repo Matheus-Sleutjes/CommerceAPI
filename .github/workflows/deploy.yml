@@ -31,7 +31,7 @@ jobs:
 
       - name: Copy files with SCP
         run: |
-          scp -r -i id_rsa ./ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}
+          scp -r -i id_rsa ./ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/repos/commerce
 
       - name: Remove temporary SSH resources (recommended)
         run: |
