@@ -32,7 +32,8 @@ jobs:
       - name: Copy files with SCP
         run: |
           mkdir temp_dir  # Create a temporary directory
-          cp -r ./ temp_dir  # Copy ./ contents to temp_dir
+          # cp -r ./ temp_dir  # Copy ./ contents to temp_dir
+          cp -fR ./ temp_dir
           cp -r temp_dir ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/repos/commerce
           rm -rf temp_dir  # Remove temporary directory (optional)
           #scp -r -i id_rsa ./ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/repos/commerce
