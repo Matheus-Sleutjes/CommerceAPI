@@ -14,6 +14,9 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v3
 
+      - name: check arquivos
+        run: ls -t  
+
       - name: Install SSH dependencies (if needed)
         run: |
           sudo apt-get update
